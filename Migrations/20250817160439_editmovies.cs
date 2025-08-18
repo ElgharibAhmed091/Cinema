@@ -1,0 +1,28 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Cinema.Migrations
+{
+    /// <inheritdoc />
+    public partial class editmovies : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.RenameColumn(
+                name: "ImageURL",
+                table: "Movies",
+                newName: "ImageUrl");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.RenameColumn(
+                name: "ImageUrl",
+                table: "Movies",
+                newName: "ImageURL");
+        }
+    }
+}

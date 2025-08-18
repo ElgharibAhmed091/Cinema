@@ -1,0 +1,35 @@
+﻿@model Cinema.Models.Movie
+
+@{
+    ViewData["Title"] = "Movie Details";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Model.ImageURL" alt="@Model.Name" class="img-fluid rounded-start" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Name</h2>
+                    <p class="card-text text-muted">@Model.Description</p>
+                    <p><strong>🎟 Price:</strong> $@Model.Price</p>
+                    <p><strong>📅 Start:</strong> @Model.StartDate.ToShortDateString()</p>
+                    <p><strong>📅 End:</strong> @Model.EndDate.ToShortDateString()</p>
+                    <p><strong>🎭 Category:</strong> @Model.MovieCategory</p>
+                    <p><strong>🏢 Cinema:</strong> @Model.CinemaId</p>
+                    <p><strong>🎬 Producer:</strong> @Model.Producer?.FullName</p>
+                </div>
+                <div class="card-footer bg-light text-end">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                        ✏️ Edit
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        ⬅️ Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

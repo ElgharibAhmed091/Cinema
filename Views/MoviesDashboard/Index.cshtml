@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Cinema.Models.Movie>
+@{
+    ViewData["Title"] = "لوحة تحكم الأفلام";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2 class="mb-4">🎬 لوحة تحكم الأفلام</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center shadow">
+            <div class="card-body">
+                <h5 class="card-title">إجمالي الأفلام</h5>
+                <p class="display-6">@ViewBag.TotalMovies</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center shadow bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">المتاحة</h5>
+                <p class="display-6">@ViewBag.AvailableMovies</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center shadow bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title">الغير متاحة</h5>
+                <p class="display-6">@ViewBag.UnavailableMovies</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered text-center align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>📌 الإسم</th>
+            <th>🖼 الصورة</th>
+            <th>📅 تاريخ الإصدار</th>
+            <th>🎭 الحالة</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>@movie.Name</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(movie.ImageURL))
+                    {
+                        <img src="@movie.ImageURL" alt="@movie.Name" width="80" />
+                    }
+                </td>
+                <td>@movie.StartDate.ToShortDateString()</td>
+                <td>
+                  
+            </tr>
+        }
+    </tbody>
+</table>

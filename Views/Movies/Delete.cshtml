@@ -1,0 +1,28 @@
+﻿@model Cinema.Models.Movie
+
+@{
+    ViewData["Title"] = "Delete Movie";
+}
+
+<div class="container mt-5">
+    <div class="card border-danger shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h3>⚠️ Confirm Delete</h3>
+        </div>
+        <div class="card-body">
+            <h4 class="text-dark">Are you sure you want to delete <strong>@Model.Name</strong>?</h4>
+            <hr />
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Price:</strong> $@Model.Price</p>
+            <p><strong>Category:</strong> @Model.MovieCategory</p>
+            <p><strong>Producer:</strong> @Model.Producer?.FullName</p>
+        </div>
+        <div class="card-footer text-end">
+            <form asp-action="Delete" method="post" class="d-inline">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">🗑 Delete</button>
+            </form>
+            <a asp-action="Index" class="btn btn-secondary">⬅️ Back to List</a>
+        </div>
+    </div>
+</div>

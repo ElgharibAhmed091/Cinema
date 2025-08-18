@@ -1,0 +1,79 @@
+﻿@model Cinema.Models.Movie
+
+@{
+    ViewData["Title"] = "Add New Movie";
+}
+
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg border-0 p-4" style="max-width: 600px; width: 100%;">
+        <div class="text-center mb-4">
+            <h3 class="fw-bold">Add New Movie 🎬</h3>
+        </div>
+
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-semibold">Movie Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter movie name" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-semibold">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label fw-semibold">Price</label>
+                <input asp-for="Price" class="form-control" placeholder="Enter price" />
+                <span asp-validation-for="Price" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ImageURL" class="form-label fw-semibold">Image URL</label>
+                <input asp-for="ImageURL" class="form-control" placeholder="Enter image URL" />
+                <span asp-validation-for="ImageURL" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col">
+                    <label asp-for="StartDate" class="form-label fw-semibold">Start Date</label>
+                    <input asp-for="StartDate" type="date" class="form-control" />
+                </div>
+                <div class="col">
+                    <label asp-for="EndDate" class="form-label fw-semibold">End Date</label>
+                    <input asp-for="EndDate" type="date" class="form-control" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MovieCategory" class="form-label fw-semibold">Category</label>
+                <input asp-for="MovieCategory" class="form-control" placeholder="Enter category" />
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col">
+                    <label asp-for="CinemaId" class="form-label fw-semibold">Cinema</label>
+                    <select asp-for="CinemaId" class="form-control" asp-items="ViewBag.CinemaId"></select>
+                </div>
+                <div class="col">
+                    <label asp-for="ProducerId" class="form-label fw-semibold">Producer</label>
+                    <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.ProducerId"></select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <input type="submit" value="Create" class="btn btn-primary fw-bold" />
+                <a asp-action="Index" class="btn btn-secondary fw-bold">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

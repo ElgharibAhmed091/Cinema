@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+    var amount = ViewBag.Amount;
+}
+
+<h2>Checkout</h2>
+<p>Total Amount: @amount $</p>
+
+<form asp-action="CreateCheckoutSession" method="post">
+    <input type="hidden" name="amount" value="@amount" />
+    <button type="submit" class="btn btn-primary">Pay Now</button>
+</form>
