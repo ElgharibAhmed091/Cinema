@@ -1,130 +1,131 @@
 # Cinema Web Application
 
-## وصف المشروع
+A web-based cinema management system built using **ASP.NET Core MVC** with features for user management, movie catalog, shopping cart, and Stripe payment integration.
 
-Cinema هو مشروع ويب باستخدام **ASP.NET Core MVC** لإدارة الأفلام، المستخدمين، الطلبات، والدفع عبر Stripe.
-يشمل:
+---
 
-* عرض قائمة الأفلام.
-* إضافة الأفلام إلى السلة.
-* الدفع باستخدام Stripe Checkout.
-* لوحة تحكم (Dashboard) لعرض الطلبات الأخيرة وعدد الأفلام والمستخدمين.
-* إدارة المستخدمين وترقية أي مستخدم إلى Admin.
+## Features
 
-## المتطلبات
+* User registration and login using **ASP.NET Core Identity**.
+* Role management: Admin and User.
+* Movie catalog with CRUD operations.
+* Shopping cart for selecting movies.
+* Stripe payment integration for online checkout.
+* Dashboard for Admin to view statistics:
 
-* .NET SDK 7.0 أو أحدث
-* SQL Server (LocalDB أو أي نسخة متاحة)
-* Visual Studio 2022 / VS Code
-* حساب Stripe لاختبار الدفع
+  * Total movies
+  * Total users
+  * Total orders
+  * Latest orders and order details
+* Email confirmation and user account management.
+* Responsive UI with Bootstrap.
 
-## الهيكلية (File Structure)
+---
+
+## File Structure
 
 ```
-CinemaProject/
+Cinema/
 │
 ├─ Controllers/
-│   ├─ AccountController.cs
-│   ├─ DashboardController.cs
-│   ├─ PaymentController.cs
-│   ├─ OrderController.cs
-│   └─ ...
+│   ├─ AccountController.cs      # User registration, login, authentication
+│   ├─ MovieController.cs        # CRUD operations for movies
+│   ├─ CartController.cs         # Shopping cart management
+│   ├─ PaymentController.cs      # Stripe payment integration
+│   ├─ DashboardController.cs    # Admin dashboard
 │
 ├─ Models/
-│   ├─ ApplicationUser.cs
-│   ├─ Movie.cs
-│   ├─ Order.cs
-│   ├─ OrderItem.cs
-│   ├─ CartItem.cs
-│   └─ ...
-│
-├─ Views/
-│   ├─ Account/
-│   │   ├─ Login.cshtml
-│   │   └─ Register.cshtml
-│   ├─ Dashboard/
-│   │   └─ Index.cshtml
-│   ├─ Payment/
-│   │   ├─ Success.cshtml
-│   │   └─ Cancel.cshtml
-│   ├─ Order/
-│   │   └─ Checkout.cshtml
-│   └─ Shared/
-│       ├─ _Layout.cshtml
-│       └─ _ValidationScriptsPartial.cshtml
+│   ├─ ApplicationUser.cs        # Identity user
+│   ├─ Movie.cs                  # Movie model
+│   ├─ CartItem.cs               # Cart item model
+│   ├─ Order.cs                  # Order model
+│   ├─ OrderItem.cs              # Order item model
 │
 ├─ Data/
-│   └─ AppDbContext.cs
+│   ├─ AppDbContext.cs           # Entity Framework Core DbContext
+│
+├─ Views/
+│   ├─ Account/                  # Login, Register, etc.
+│   ├─ Movie/                    # Index, Create, Edit, Details, Delete
+│   ├─ Cart/                     # Cart index
+│   ├─ Payment/                  # Success.cshtml, Cancel.cshtml
+│   ├─ Dashboard/                # Admin dashboard
 │
 ├─ wwwroot/
 │   ├─ css/
 │   ├─ js/
-│   └─ images/
+│   ├─ images/
 │
-├─ appsettings.json
-├─ Program.cs
-└─ Startup.cs (إن وجد)
+├─ appsettings.json               # Database connection and Stripe keys
+├─ Program.cs                     # ASP.NET Core setup
+└─ README.md                      # Project documentation
 ```
 
-## الإعداد
+---
 
-1. **استنساخ المشروع**:
+## Setup Instructions
+
+1. **Clone the repository:**
 
 ```bash
-git clone <your-repo-url>
-cd CinemaProject
+git clone <repository-url>
+cd Cinema
 ```
 
-2. **تحديث قاعدة البيانات**:
-   تأكد أن `AppDbContext` في `appsettings.json` يحتوي على الاتصال الصحيح:
+2. **Configure database:**
+
+* Open `appsettings.json`
+* Set your SQL Server connection string:
 
 ```json
 "ConnectionStrings": {
-    "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=CinemaDb;Trusted_Connection=True;"
+  "DefaultConnection": "Server=.;Database=CinemaDB;Trusted_Connection=True;"
 }
 ```
 
-3. **إنشاء الجداول**:
+3. **Apply migrations and create database:**
 
 ```bash
 dotnet ef database update
 ```
 
-4. **Stripe API Key**:
-   أضف مفاتيح Stripe في `appsettings.json`:
+4. **Configure Stripe keys in `appsettings.json`:**
 
 ```json
 "Stripe": {
-    "PublishableKey": "<your-publishable-key>",
-    "SecretKey": "<your-secret-key>"
+  "SecretKey": "your-secret-key",
+  "PublishableKey": "your-publishable-key"
 }
 ```
 
-5. **تشغيل المشروع**:
+5. **Run the application:**
 
 ```bash
 dotnet run
 ```
 
-ثم افتح المتصفح على `https://localhost:5001` أو حسب الـ URL.
+6. **Access the app:**
 
-## مميزات المشروع
+* User: Register and login
+* Admin: Use the dashboard for managing movies and viewing orders.
 
-* **السلة والدفع**: يمكن إضافة أفلام للسلة والدفع عبر Stripe.
-* **Dashboard**:
+---
 
-  * عرض عدد الأفلام والمستخدمين والطلبات.
-  * عرض أحدث 5 طلبات مع تفاصيل الأفلام والمستخدمين.
-  * إدارة المستخدمين وترقيتهم إلى Admin.
-* **التأكد من صلاحيات المستخدم**: إذا لم يكن المستخدم مسجّل دخول، يعاد توجيهه لتسجيل الدخول قبل الدفع.
+## Technologies Used
 
-## ملاحظات
+* ASP.NET Core MVC
+* Entity Framework Core
+* ASP.NET Core Identity
+* Stripe Payment Gateway
+* Bootstrap 5
+* SQL Server
 
-* بعد الدفع، يتم إنشاء الطلب (`Order`) و `OrderItems` مرتبطة بالأفلام الصحيحة لتجنب أي مشكلة FK.
-* السلة (`CartItems`) يتم تنظيفها بعد الدفع تلقائياً.
-* تصميم الواجهة باستخدام Bootstrap 5.
+---
 
-## التراخيص
+## Notes
 
-* هذا المشروع للتعلم والتجربة الشخصية.
-* يمكن تعديله واستخدامه حسب الحاجة.
+* Only Admin users can access the dashboard.
+* Orders are linked to users and cart items.
+* Make sure to seed admin user or create one manually.
+
+![Cinema Screenshot](https://github.com/user-attachments/assets/4c8d8be9-f9c0-4942-9303-3ef812a5c379 "Cinema App Screenshot")
