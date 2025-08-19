@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ElgharibAhmed091/Cinema/main/wwwroot/images/logo.png" alt="Cinema Logo" width="150"/>
+![Cinema Screenshot](https://github.com/user-attachments/assets/4c8d8be9-f9c0-4942-9303-3ef812a5c379 "Cinema App Screenshot")
 </p>
 
 # Cinema Management System
