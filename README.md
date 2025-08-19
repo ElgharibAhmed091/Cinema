@@ -73,4 +73,5 @@ dotnet run
 **#CinemaManagement #ASPNetCore #EFCore #Stripe #JWT #AdminDashboard #EcommerceBackend #DotNet8**
 
 
-![Cinema Screenshot](https://github.com/user-attachments/assets/4c8d8be9-f9c0-4942-9303-3ef812a5c379 "Cinema App Screenshot")
+![Cinema Screenshot]<img width="1812" height="898" alt="image" src="https://github.com/user-attachments/assets/d535b6b6-52da-4032-80f4-0c392fc5784e" />
+)
