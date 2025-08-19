@@ -1,131 +1,78 @@
-# Cinema Web Application
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ElgharibAhmed091/Cinema/main/wwwroot/images/logo.png" alt="Cinema Logo" width="150"/>
+</p>
 
-A web-based cinema management system built using **ASP.NET Core MVC** with features for user management, movie catalog, shopping cart, and Stripe payment integration.
+# Cinema Management System
 
----
+A full-featured cinema management system developed with ASP.NET Core MVC and Web API, offering a complete backend and dashboard for managing movies, cinemas, producers, actors, orders, users, and online payments.
+
+## Tech Stack
+
+* **Backend:** ASP.NET Core MVC & Web API (.NET 8)
+* **Database:** Entity Framework Core (EF Core)
+* **Authentication & Authorization:** JWT, Role-based access
+* **Payment:** Stripe API (with webhooks for transaction confirmation)
+* **Tools:** AutoMapper, Swagger, Postman
 
 ## Features
 
-* User registration and login using **ASP.NET Core Identity**.
-* Role management: Admin and User.
-* Movie catalog with CRUD operations.
-* Shopping cart for selecting movies.
-* Stripe payment integration for online checkout.
-* Dashboard for Admin to view statistics:
+* **User Management:** Registration, login, role assignment (Admin, User).
+* **Movie Management:** CRUD operations for movies, producers, and actors.
+* **Cinema Management:** Add and manage cinemas, showtimes, and seating.
+* **Shopping Cart:** Add movies or tickets to cart and process checkout.
+* **Orders:** Track and manage user orders, order items, and revenue.
+* **Online Payments:** Secure integration with Stripe API.
+* **Dashboard:** Admin dashboard displaying stats like movies, users, orders, revenue, and latest transactions.
 
-  * Total movies
-  * Total users
-  * Total orders
-  * Latest orders and order details
-* Email confirmation and user account management.
-* Responsive UI with Bootstrap.
-
----
-
-## File Structure
+## Project Structure
 
 ```
 Cinema/
-│
 ├─ Controllers/
-│   ├─ AccountController.cs      # User registration, login, authentication
-│   ├─ MovieController.cs        # CRUD operations for movies
-│   ├─ CartController.cs         # Shopping cart management
-│   ├─ PaymentController.cs      # Stripe payment integration
-│   ├─ DashboardController.cs    # Admin dashboard
-│
 ├─ Models/
-│   ├─ ApplicationUser.cs        # Identity user
-│   ├─ Movie.cs                  # Movie model
-│   ├─ CartItem.cs               # Cart item model
-│   ├─ Order.cs                  # Order model
-│   ├─ OrderItem.cs              # Order item model
-│
-├─ Data/
-│   ├─ AppDbContext.cs           # Entity Framework Core DbContext
-│
 ├─ Views/
-│   ├─ Account/                  # Login, Register, etc.
-│   ├─ Movie/                    # Index, Create, Edit, Details, Delete
-│   ├─ Cart/                     # Cart index
-│   ├─ Payment/                  # Success.cshtml, Cancel.cshtml
-│   ├─ Dashboard/                # Admin dashboard
-│
 ├─ wwwroot/
-│   ├─ css/
-│   ├─ js/
-│   ├─ images/
-│
-├─ appsettings.json               # Database connection and Stripe keys
-├─ Program.cs                     # ASP.NET Core setup
-└─ README.md                      # Project documentation
+└─ Program.cs / Startup.cs
 ```
 
----
+## How to Run
 
-## Setup Instructions
-
-1. **Clone the repository:**
+1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ElgharibAhmed091/Cinema.git
+```
+
+2. Navigate to the project folder and restore packages:
+
+```bash
 cd Cinema
+dotnet restore
 ```
 
-2. **Configure database:**
-
-* Open `appsettings.json`
-* Set your SQL Server connection string:
-
-```json
-"ConnectionStrings": {
-  "DefaultConnection": "Server=.;Database=CinemaDB;Trusted_Connection=True;"
-}
-```
-
-3. **Apply migrations and create database:**
+3. Apply database migrations:
 
 ```bash
 dotnet ef database update
 ```
 
-4. **Configure Stripe keys in `appsettings.json`:**
-
-```json
-"Stripe": {
-  "SecretKey": "your-secret-key",
-  "PublishableKey": "your-publishable-key"
-}
-```
-
-5. **Run the application:**
+4. Run the project:
 
 ```bash
 dotnet run
 ```
 
-6. **Access the app:**
+5. Open the app in your browser: `https://localhost:5001`
 
-* User: Register and login
-* Admin: Use the dashboard for managing movies and viewing orders.
+## Additional Notes
 
----
-
-## Technologies Used
-
-* ASP.NET Core MVC
-* Entity Framework Core
-* ASP.NET Core Identity
-* Stripe Payment Gateway
-* Bootstrap 5
-* SQL Server
+* Admin dashboard allows management of users, roles, movies, and orders.
+* JWT authentication ensures secure endpoints for sensitive actions.
+* Stripe integration includes webhook verification for payment confirmation.
 
 ---
 
-## Notes
+**#CinemaManagement #ASPNetCore #EFCore #Stripe #JWT #AdminDashboard #EcommerceBackend #DotNet8**
 
-* Only Admin users can access the dashboard.
-* Orders are linked to users and cart items.
-* Make sure to seed admin user or create one manually.
 
 ![Cinema Screenshot](https://github.com/user-attachments/assets/4c8d8be9-f9c0-4942-9303-3ef812a5c379 "Cinema App Screenshot")
