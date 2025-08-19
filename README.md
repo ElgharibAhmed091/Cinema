@@ -1,6 +1,4 @@
-<p align="center">
 ![Cinema Screenshot](https://github.com/user-attachments/assets/4c8d8be9-f9c0-4942-9303-3ef812a5c379 "Cinema App Screenshot")
-</p>
 
 # Cinema Management System
 
