@@ -1,103 +1,123 @@
-﻿@* @model cine.Controllers.DashboardViewModel
+﻿@model DashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
 
-<h2 class="mb-4">لوحة التحكم</h2>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<div class="row text-center mb-5">
-    <div class="col-md-4">
-        <div class="card shadow border-0">
-            <div class="card-body">
-                <h5>عدد السيارات</h5>
-                <p class="display-6 fw-bold text-primary">@Model.CarCount</p>
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">🎬 Cinema Admin Dashboard</h1>
+
+    <!-- الإحصائيات -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Movies</h5>
+                    <p class="card-text fs-3">@Model.CarCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Users</h5>
+                    <p class="card-text fs-3">@Model.UserCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Orders</h5>
+                    <p class="card-text fs-3">@Model.OrderCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Revenue</h5>
+                    <p class="card-text fs-3">$@Model.TotalRevenue</p>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card shadow border-0">
-            <div class="card-body">
-                <h5>عدد المستخدمين</h5>
-                <p class="display-6 fw-bold text-success">@Model.UserCount</p>
-            </div>
+
+    <!-- آخر 5 طلبات -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">
+            Latest Orders
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0 text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User Email</th>
+                        <th>Movies</th>
+                        <th>Total Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.LatestOrders)
+                    {
+                        <tr>
+                            <td>@order.Id</td>
+                            <td>@order.User?.Email</td>
+                            <td>
+                                @foreach (var item in order.OrderItems ?? new List<OrderItem>())
+                                {
+                                    <div>@item.Movie?.Name x @item.Quantity</div>
+                                }
+                            </td>
+                            <td>$@order.TotalAmount</td>
+                            <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card shadow border-0">
-            <div class="card-body">
-                <h5>عدد الطلبات</h5>
-                <p class="display-6 fw-bold text-danger">@Model.OrderCount</p>
-            </div>
+
+    <!-- المستخدمين وأدوارهم -->
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Users & Roles
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0 text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.UsersWithRoles)
+                    {
+                        <tr>
+                            <td>@user.Email</td>
+                            <td>@user.Role</td>
+                            <td>
+                                @if (user.Role != "Admin")
+                                {
+                                    <form asp-controller="Admin" asp-action="MakeAdmin" method="post" style="display:inline;">
+                                        <input type="hidden" name="userId" value="@user.Id" />
+                                        <button type="submit" class="btn btn-warning btn-sm">Make Admin</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-success">Already Admin</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<h4 class="mb-3">أحدث 5 طلبات</h4>
-<table class="table table-striped shadow-sm">
-    <thead class="table-dark">
-        <tr>
-            <th>#</th>
-            <th>البريد الإلكتروني</th>
-            <th>العربية</th>
-            <th>التاريخ</th>
-            <th>الإجمالي</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model.LatestOrders)
-        {
-            foreach (var item in order.OrderItems)
-            {
-                <tr>
-                    <td>#@order.Id</td>
-                    <td>@order.User?.Email</td>
-                    <td>@item.Car?.Name</td>
-                    <td>@order.OrderDate.ToShortDateString()</td>
-                    <td>@order.TotalAmount.ToString("C")</td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>
-
-<hr class="my-5" />
-
-<h4>المستخدمون</h4>
-<table class="table table-bordered table-hover shadow-sm">
-    <thead class="table-dark">
-        <tr>
-            <th>البريد الإلكتروني</th>
-            <th>الدور</th>
-            <th>الإجراء</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.UsersWithRoles)
-        {
-            <tr>
-                <td>@user.Email</td>
-                <td>
-                    @if (user.Role == "Admin")
-                    {
-                        <span class="badge bg-success">Admin</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">User</span>
-                    }
-                </td>
-                <td>
-                    @if (user.Role != "Admin")
-                    {
-                        <form asp-action="MakeAdmin" method="post">
-                            <input type="hidden" name="userId" value="@user.Id" />
-                            <button type="submit" class="btn btn-sm btn-warning">تعيين كـ Admin</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <span class="text-muted">مشرف</span>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
- *@

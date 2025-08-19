@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Cinema.Data;
 using Cinema.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Cinema.Controllers
 {
+    
     public class MoviesController : Controller
     {
         private readonly AppDbContext _context;
@@ -46,7 +48,7 @@ namespace Cinema.Controllers
 
             return View(movie);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Movies/Create
         public IActionResult Create()
         {

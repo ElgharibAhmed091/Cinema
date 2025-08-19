@@ -33,30 +33,24 @@ namespace Cinema.Controllers
             return Redirect(url);
         }
 
-        public async Task<IActionResult> Success()
+        public IActionResult Success()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var cartItems = _context.CartItems.Include(c => c.Movie)
-                                              .Where(c => c.UserId == user.Id).ToList();
+            if (_context == null)
+                return StatusCode(500, "Database context is null.");
 
-            var order = new Order
+            // جلب العناصر مع التأكد من عدم وجود null
+            var cartItems = _context.CartItems
+                                    .Include(c => c.Movie)
+                                    .Where(c => c.Movie != null) // نتأكد أن كل CartItem مرتبط بـ Movie
+                                    .ToList();
+
+            if (cartItems == null || !cartItems.Any())
             {
-                UserId = user.Id,
-                OrderDate = DateTime.Now,
-                TotalAmount = (decimal)cartItems.Sum(i => i.Movie.Price * i.Quantity),
-                OrderItems = cartItems.Select(i => new OrderItem
-                {
-                    MovieId = i.MovieId,
-                    Quantity = i.Quantity,
-                    Price = (decimal)i.Movie.Price
-                }).ToList()
-            };
+                ViewBag.Message = "Your cart is empty.";
+                return View(new List<CartItem>());
+            }
 
-            _context.Orders.Add(order);
-            _context.CartItems.RemoveRange(cartItems);
-            await _context.SaveChangesAsync();
-
-            return View(); // Success.cshtml
+            return View(cartItems);
         }
 
         public IActionResult Cancel()

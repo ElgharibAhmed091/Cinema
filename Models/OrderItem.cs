@@ -18,5 +18,6 @@
 
         // 👇 لازم تضيف دي عشان EF Core يعرف يربط MovieId بـ Movie
         public Movie Movie { get; set; }
+        public int CarId { get; internal set; }
     }
 }

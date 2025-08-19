@@ -1,9 +1,12 @@
-﻿using Cinema.Data;
+﻿// DashboardController.cs
+using Cinema.Data;
 using Cinema.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+[Authorize(Roles = "Admin")]
 public class DashboardController : Controller
 {
     private readonly AppDbContext _ctx;
@@ -17,7 +20,7 @@ public class DashboardController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var users = _userManager.Users.ToList();
+        var users = await _userManager.Users.ToListAsync();
         var userList = new List<UserWithRole>();
 
         foreach (var user in users)
@@ -34,9 +37,10 @@ public class DashboardController : Controller
 
         var vm = new DashboardViewModel
         {
-            MovieCount = await _ctx.Movies.CountAsync(),
+            CarCount = await _ctx.Movies.CountAsync(),
             UserCount = await _ctx.Users.CountAsync(),
             OrderCount = await _ctx.Orders.CountAsync(),
+            TotalRevenue = await _ctx.Orders.SumAsync(o => o.TotalAmount),
             LatestOrders = await _ctx.Orders
                 .Include(o => o.User)
                 .Include(o => o.OrderItems)
@@ -49,27 +53,15 @@ public class DashboardController : Controller
 
         return View(vm);
     }
-
-    [HttpPost]
-    public async Task<IActionResult> MakeAdmin(string userId)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-        if (user != null)
-        {
-            var roles = await _userManager.GetRolesAsync(user);
-            if (!roles.Contains("Admin"))
-                await _userManager.AddToRoleAsync(user, "Admin");
-        }
-
-        return RedirectToAction("Index");
-    }
 }
 
+// ViewModels
 public class DashboardViewModel
 {
-    public int MovieCount { get; set; }
+    public int CarCount { get; set; }
     public int UserCount { get; set; }
     public int OrderCount { get; set; }
+    public decimal TotalRevenue { get; set; }
     public List<Order> LatestOrders { get; set; } = new();
     public List<UserWithRole> UsersWithRoles { get; set; } = new();
 }

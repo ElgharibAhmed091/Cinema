@@ -1,6 +1,7 @@
 ﻿using Cinema.Data;
 using Cinema.Dto;
 using Cinema.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +44,7 @@ namespace Cinema.Controllers
 
             return View(cinemas);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Cinemas/Create
         public IActionResult Create()
         {
