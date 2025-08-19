@@ -74,4 +74,3 @@ dotnet run
 
 
 ![Cinema Screenshot]<img width="1812" height="898" alt="image" src="https://github.com/user-attachments/assets/d535b6b6-52da-4032-80f4-0c392fc5784e" />
-)
